@@ -1,20 +1,22 @@
 import React from 'react';
 import styled from 'styled-components';
+import { connect } from 'react-redux';
+import { setDoneTask } from '../actions/actions';
 
 function ActiveList(props) {
-  const { activeList, done, className } = props;
+  const { activeList, setDoneTask, className } = props;
 
   function doneValue(event) {
     let value = event.target.parentElement.children[0].innerText;
-    done(value);
+    setDoneTask(value);
   }
 
   const actList = activeList.map((value, index) => (
-    <li key={index} className='active-task'>
-      <span className='active-task--item'>{value}</span>
+    <li key={index} className="active-task">
+      <span className="active-task--item">{value}</span>
       <button
-        type='button'
-        className='active-task--done-btn'
+        type="button"
+        className="active-task--done-btn"
         onClick={doneValue}
       >
         &#10004; done
@@ -58,4 +60,15 @@ const StyledActiveList = styled(ActiveList)`
   }
 `;
 
-export default StyledActiveList;
+let mapStateToProps = (state) => {
+  return {
+    activeList: state.todolist.activeList,
+  };
+};
+
+let mapDispatchToProps = (dispatch) => {
+  return {
+    setDoneTask: (task) => dispatch(setDoneTask(task)),
+  };
+};
+export default connect(mapStateToProps, mapDispatchToProps)(StyledActiveList);

@@ -1,8 +1,8 @@
 import * as TYPES from '../constants/actionTypes';
 
 const initialState = {
-  prevRate: {},
-  curRate: {},
+  previousRate: {},
+  currentRate: {},
   nextRate: {},
 };
 
@@ -14,26 +14,26 @@ export default function exchangeReducer(state = initialState, action) {
       return {
         ...state,
         nextRate: action.payload[0],
-        curRate: action.payload[1],
-        prevRate: action.payload[2],
+        currentRate: action.payload[1],
+        previousRate: action.payload[2],
       };
 
-    case TYPES.PREVIOUS_RATE:
+    case TYPES.SET_PREVIOUS_RATE:
       tmp = state.nextRate;
       return {
         ...state,
-        nextRate: state.curRate,
-        curRate: state.prevRate,
-        prevRate: tmp,
+        nextRate: state.currentRate,
+        currentRate: state.previousRate,
+        previousRate: tmp,
       };
 
-    case TYPES.NEXT_RATE:
-      tmp = state.prevRate;
+    case TYPES.SET_NEXT_RATE:
+      tmp = state.previousRate;
       return {
         ...state,
-        prevRate: state.curRate,
-        curRate: state.nextRate,
-        nextRate: state.prevRate,
+        previousRate: state.currentRate,
+        currentRate: state.nextRate,
+        nextRate: state.previousRate,
       };
 
     default:

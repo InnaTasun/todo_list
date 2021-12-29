@@ -14,7 +14,7 @@ export default function todolistReducer(state = initialState, action) {
         activeList: state.activeList.concat([action.payload]),
       };
 
-    case TYPES.DONE_TASK:
+    case TYPES.SET_DONE_TASK:
       return {
         ...state,
         activeList: state.activeList.filter((item) => item !== action.payload),
@@ -29,7 +29,7 @@ export default function todolistReducer(state = initialState, action) {
         activeList: state.activeList.concat([action.payload]),
       };
 
-    case TYPES.DEL_TASK:
+    case TYPES.DELETE_TASK:
       return {
         ...state,
         completedList: state.completedList.filter(

@@ -1,60 +1,25 @@
 import React from 'react';
-import { connect } from 'react-redux';
-import mapStateToProps from '../mapStateToProps';
-import mapDispatchToProps from '../mapDispatchToProps';
 import ToDoList from './ToDoList';
 import Report from './Report';
 import ExchangeRates from './ExchangeRates';
 import styled from 'styled-components';
 
 function App(props) {
-  const {
-    add,
-    done,
-    activ,
-    del,
-    prev,
-    next,
-    activeList,
-    completedList,
-    className,
-    prevRate,
-    curRate,
-    nextRate,
-    getRates
-  } = props;
+  const { className } = props;
 
   return (
     <div className={`${className} content`}>
-      <header className='content--header'>
+      <header className="content--header">
         <h2>TODO LIST</h2>
       </header>
 
-      <ToDoList
-        className='content--main'
-        add={add}
-        done={done}
-        activeList={activeList}
-      />
+      <ToDoList className="content--main" />
 
-      <Report
-        className='content--report'
-        activeList={activeList}
-        completedList={completedList}
-        activ={activ}
-        del={del}
-      />
+      <Report className="content--report" />
 
-      <footer className='content--footer'>
+      <footer className="content--footer">
         <span>Created by Inna Tasun &copy; 2021</span>
-        <ExchangeRates
-          prev={prev}
-          next={next}
-          prevRate={prevRate}
-          curRate={curRate}
-          nextRate={nextRate}
-          getRates={getRates}
-        />
+        <ExchangeRates />
       </footer>
     </div>
   );
@@ -76,7 +41,6 @@ const StyledApp = styled(App)`
     flex-flow: column nowrap;
     justify-content: start;
     align-items: stretch;
-    
 
     &--header {
       margin-top: 30px;
@@ -109,4 +73,4 @@ const StyledApp = styled(App)`
   }
 `;
 
-export default connect(mapStateToProps, mapDispatchToProps)(StyledApp);
+export default StyledApp;

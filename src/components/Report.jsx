@@ -2,9 +2,10 @@ import React from 'react';
 import CompletedList from './CompletedList';
 import { useState } from 'react';
 import styled from 'styled-components';
+import { connect } from 'react-redux';
 
 function Report(props) {
-  const { activeList, completedList, activ, del, className } = props;
+  const { activeList, completedList, className } = props;
   const [showList, setShowList] = useState(false);
   const [btnText, setBtnText] = useState('Show completed');
 
@@ -20,26 +21,20 @@ function Report(props) {
   return (
     <div className={className}>
       <h3>REPORT</h3>
-      <div className='report'>
-        <div className='report--info'>
+      <div className="report">
+        <div className="report--info">
           Active tasks: {activeList.length} <br />
           Completed tasks: {completedList.length} <br />
         </div>
         <button
-          type='button'
-          className='report--show-btn'
+          type="button"
+          className="report--show-btn"
           onClick={showHideCompletedList}
         >
           {btnText}
         </button>
       </div>
-      <div>
-        {showList ? (
-          <CompletedList list={completedList} activ={activ} del={del} />
-        ) : (
-          ''
-        )}
-      </div>
+      <div>{showList ? <CompletedList list={completedList} /> : ''}</div>
     </div>
   );
 }
@@ -73,4 +68,11 @@ const StyledReport = styled(Report)`
   }
 `;
 
-export default StyledReport;
+let mapStateToProps = (state) => {
+  return {
+    activeList: state.todolist.activeList,
+    completedList: state.todolist.completedList,
+  };
+};
+
+export default connect(mapStateToProps)(StyledReport);

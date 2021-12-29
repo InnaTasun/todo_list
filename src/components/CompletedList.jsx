@@ -1,33 +1,35 @@
 import React from 'react';
 import styled from 'styled-components';
+import { connect } from 'react-redux';
+import { deleteTask, activateTask } from '../actions/actions';
 
 function CompletedList(props) {
-  const { list, activ, del, className } = props;
+  const { list, activateTask, deleteTask, className } = props;
 
-  function activateTask(event) {
+  function onActivateTask(event) {
     let value = event.target.parentElement.children[0].innerText;
-    activ(value);
+    activateTask(value);
   }
 
-  function deleteTask(event) {
+  function onDeleteTask(event) {
     let value = event.target.parentElement.children[0].innerText;
-    del(value);
+    deleteTask(value);
   }
 
   const complList = list.map((value, index) => (
-    <li key={index} className='completed-task'>
-      <span className='completed-task--item'>{value}</span>
+    <li key={index} className="completed-task">
+      <span className="completed-task--item">{value}</span>
       <button
-        type='button'
-        className='completed-task--compl-btn'
-        onClick={activateTask}
+        type="button"
+        className="completed-task--compl-btn"
+        onClick={onActivateTask}
       >
         &#8593; activate
       </button>
       <button
-        type='button'
-        className='completed-task--compl-btn'
-        onClick={deleteTask}
+        type="button"
+        className="completed-task--compl-btn"
+        onClick={onDeleteTask}
       >
         x delete
       </button>
@@ -41,7 +43,7 @@ const StyledCompletedList = styled(CompletedList)`
   list-style-type: none;
   padding: 0;
   margin-bottom: 100px;
-  
+
   .completed-task {
     display: flex;
     flex-flow: row nowrap;
@@ -72,4 +74,11 @@ const StyledCompletedList = styled(CompletedList)`
   }
 `;
 
-export default StyledCompletedList;
+let mapDispatchToProps = (dispatch) => {
+  return {
+    deleteTask: (task) => dispatch(deleteTask(task)),
+    activateTask: (task) => dispatch(activateTask(task)),
+  };
+};
+
+export default connect(null, mapDispatchToProps)(StyledCompletedList);

@@ -1,58 +1,53 @@
 import * as TYPES from '../constants/actionTypes';
 import ratesFilter from '../ratesFilter';
-import {EXCHANGE_RATES} from '../constants/urls'
+import { EXCHANGE_RATES } from '../constants/urls';
 
-export function add(task) {
+export function addTask(task) {
   return {
     type: TYPES.ADD_TASK,
     payload: task,
   };
 }
 
-export function done(task) {
+export function setDoneTask(task) {
   return {
-    type: TYPES.DONE_TASK,
+    type: TYPES.SET_DONE_TASK,
     payload: task,
   };
 }
 
-export function del(task) {
+export function deleteTask(task) {
   return {
-    type: TYPES.DEL_TASK,
+    type: TYPES.DELETE_TASK,
     payload: task,
   };
 }
 
-export function activ(task) {
+export function activateTask(task) {
   return {
     type: TYPES.ACTIVATE_TASK,
     payload: task,
   };
 }
 
-export function setRates(rates) {
+export function setPreviousRate() {
   return {
-    type: TYPES.SET_RATES,
-    payload: ratesFilter(rates),
+    type: TYPES.SET_PREVIOUS_RATE,
   };
 }
 
-export function prev() {
+export function setNextRate() {
   return {
-    type: TYPES.PREVIOUS_RATE,
-  };
-}
-
-export function next() {
-  return {
-    type: TYPES.NEXT_RATE,
+    type: TYPES.SET_NEXT_RATE,
   };
 }
 
 export function getRates() {
-  return ((dispatch) => {
+  return (dispatch) => {
     fetch(EXCHANGE_RATES)
       .then((response) => response.json())
-      .then((dataJSON) => dispatch(setRates(dataJSON)));
-  });
+      .then((ratesData) => {
+        dispatch({ type: TYPES.SET_RATES, payload: ratesFilter(ratesData) });
+      });
+  };
 }

@@ -2,14 +2,16 @@ import React from 'react';
 import ActiveList from './ActiveList';
 import { useState } from 'react';
 import styled from 'styled-components';
+import { connect } from 'react-redux';
+import { addTask } from '../actions/actions';
 
 function ToDoList(props) {
-  const { add, activeList, done, className } = props;
+  const { addTask, className } = props;
   const [currentTask, setCurrentTask] = useState('');
 
   function addValue() {
     if (currentTask && currentTask.trim()) {
-      add(currentTask.trim());
+      addTask(currentTask.trim());
       setCurrentTask('');
     }
   }
@@ -31,20 +33,20 @@ function ToDoList(props) {
 
   return (
     <div className={`${className} new-task`}>
-      <form className='new-task' onSubmit={onSubmit}>
+      <form className="new-task" onSubmit={onSubmit}>
         <input
-          className='new-task--input'
-          type='text'
-          placeholder='Enter  new  task...'
+          className="new-task--input"
+          type="text"
+          placeholder="Enter  new  task..."
           value={currentTask}
           onChange={onChange}
         />
-        <button className='new-task--btn' type='button' onClick={onClick}>
+        <button className="new-task--btn" type="button" onClick={onClick}>
           +
         </button>
       </form>
       <div>
-        <ActiveList activeList={activeList} done={done} />
+        <ActiveList />
       </div>
     </div>
   );
@@ -81,4 +83,10 @@ const StyledToDoList = styled(ToDoList)`
   }
 `;
 
-export default StyledToDoList;
+let mapDispatchToProps = (dispatch) => {
+  return {
+    addTask: (task) => dispatch(addTask(task)),
+  };
+};
+
+export default connect(null, mapDispatchToProps)(StyledToDoList);
