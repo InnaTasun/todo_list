@@ -2,16 +2,18 @@ import React from 'react';
 import ActiveList from './ActiveList';
 import { useState } from 'react';
 import styled from 'styled-components';
-import { connect } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { addTask } from '../actions/actions';
 
 function ToDoList(props) {
-  const { addTask, className } = props;
+  const { className } = props;
   const [currentTask, setCurrentTask] = useState('');
+
+  const dispatch = useDispatch();
 
   function addValue() {
     if (currentTask && currentTask.trim()) {
-      addTask(currentTask.trim());
+      dispatch(addTask(currentTask.trim()));
       setCurrentTask('');
     }
   }
@@ -83,10 +85,4 @@ const StyledToDoList = styled(ToDoList)`
   }
 `;
 
-let mapDispatchToProps = (dispatch) => {
-  return {
-    addTask: (task) => dispatch(addTask(task)),
-  };
-};
-
-export default connect(null, mapDispatchToProps)(StyledToDoList);
+export default StyledToDoList;

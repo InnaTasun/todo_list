@@ -1,14 +1,17 @@
 import React from 'react';
 import styled from 'styled-components';
-import { connect } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { setDoneTask } from '../actions/actions';
 
 function ActiveList(props) {
-  const { activeList, setDoneTask, className } = props;
+  const { className } = props;
+
+  const { activeList } = useSelector((state) => state.todolist);
+  const dispatch = useDispatch();
 
   function doneValue(event) {
     let value = event.target.parentElement.children[0].innerText;
-    setDoneTask(value);
+    dispatch(setDoneTask(value));
   }
 
   const actList = activeList.map((value, index) => (
@@ -60,15 +63,4 @@ const StyledActiveList = styled(ActiveList)`
   }
 `;
 
-let mapStateToProps = (state) => {
-  return {
-    activeList: state.todolist.activeList,
-  };
-};
-
-let mapDispatchToProps = (dispatch) => {
-  return {
-    setDoneTask: (task) => dispatch(setDoneTask(task)),
-  };
-};
-export default connect(mapStateToProps, mapDispatchToProps)(StyledActiveList);
+export default StyledActiveList;

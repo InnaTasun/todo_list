@@ -1,20 +1,19 @@
 import { useEffect } from 'react';
 import styled from 'styled-components';
-import { connect } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { setPreviousRate, setNextRate, getRates } from '../actions/actions';
 
 function ExchangeRates(props) {
-  const {
-    setPreviousRate,
-    setNextRate,
-    previousRate,
-    currentRate,
-    nextRate,
-    getRates,
-    className,
-  } = props;
+  const { className } = props;
 
-  useEffect(() => getRates(), [getRates]);
+  const { currentRate, previousRate, nextRate } = useSelector(
+    (state) => state.exchange
+  );
+
+  const dispatch = useDispatch();
+
+  // eslint-disable-next-line
+  useEffect(() => dispatch(getRates()), []);
   return (
     <div className={`${className} exchange`}>
       <span> Exchange rates on {currentRate.exchangedate}: </span>
@@ -22,12 +21,16 @@ function ExchangeRates(props) {
         <button
           type="button"
           className="exchange--btn"
-          onClick={setPreviousRate}
+          onClick={() => dispatch(setPreviousRate())}
         >
           {`${previousRate.cc} <`}
         </button>
         <span className="exchange--info">{` ${currentRate.cc}: ${currentRate.rate} `}</span>
-        <button type="button" className="exchange--btn" onClick={setNextRate}>
+        <button
+          type="button"
+          className="exchange--btn"
+          onClick={() => dispatch(setNextRate())}
+        >
           {`> ${nextRate.cc}`}
         </button>
       </div>
@@ -66,23 +69,4 @@ const StyledExchangeRates = styled(ExchangeRates)`
   }
 `;
 
-let mapStateToProps = (state) => {
-  return {
-    previousRate: state.exchange.previousRate,
-    currentRate: state.exchange.currentRate,
-    nextRate: state.exchange.nextRate,
-  };
-};
-
-let mapDispatchToProps = (dispatch) => {
-  return {
-    setPreviousRate: () => dispatch(setPreviousRate()),
-    setNextRate: () => dispatch(setNextRate()),
-    getRates: () => dispatch(getRates()),
-  };
-};
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(StyledExchangeRates);
+export default StyledExchangeRates;

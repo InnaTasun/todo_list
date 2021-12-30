@@ -2,12 +2,14 @@ import React from 'react';
 import CompletedList from './CompletedList';
 import { useState } from 'react';
 import styled from 'styled-components';
-import { connect } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 function Report(props) {
-  const { activeList, completedList, className } = props;
+  const { className } = props;
   const [showList, setShowList] = useState(false);
   const [btnText, setBtnText] = useState('Show completed');
+
+  const { activeList, completedList } = useSelector((state) => state.todolist);
 
   function showHideCompletedList() {
     setShowList(!showList);
@@ -68,11 +70,4 @@ const StyledReport = styled(Report)`
   }
 `;
 
-let mapStateToProps = (state) => {
-  return {
-    activeList: state.todolist.activeList,
-    completedList: state.todolist.completedList,
-  };
-};
-
-export default connect(mapStateToProps)(StyledReport);
+export default StyledReport;

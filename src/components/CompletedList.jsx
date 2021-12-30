@@ -1,19 +1,21 @@
 import React from 'react';
 import styled from 'styled-components';
-import { connect } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { deleteTask, activateTask } from '../actions/actions';
 
 function CompletedList(props) {
-  const { list, activateTask, deleteTask, className } = props;
+  const { list, className } = props;
+
+  const dispatch = useDispatch();
 
   function onActivateTask(event) {
     let value = event.target.parentElement.children[0].innerText;
-    activateTask(value);
+    dispatch(activateTask(value));
   }
 
   function onDeleteTask(event) {
     let value = event.target.parentElement.children[0].innerText;
-    deleteTask(value);
+    dispatch(deleteTask(value));
   }
 
   const complList = list.map((value, index) => (
@@ -74,11 +76,4 @@ const StyledCompletedList = styled(CompletedList)`
   }
 `;
 
-let mapDispatchToProps = (dispatch) => {
-  return {
-    deleteTask: (task) => dispatch(deleteTask(task)),
-    activateTask: (task) => dispatch(activateTask(task)),
-  };
-};
-
-export default connect(null, mapDispatchToProps)(StyledCompletedList);
+export default StyledCompletedList;
